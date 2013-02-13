@@ -30,9 +30,9 @@ class Client
         }
 
         $this->enabled = true;
-        $request       = $container->get('request');
-        $controller    = 'None';
-        $action        = 'None';
+        $request = $container->get('request');
+        $controller = 'None';
+        $action = 'None';
 
         if ($sa = $request->attributes->get('_controller')) {
             $controllerArray = explode('::', $sa);
@@ -44,10 +44,10 @@ class Client
         // Register bugsnag
         \Bugsnag::register($apiKey);
         \Bugsnag::setReleaseStage($envName);
-        \Bugsnag::setNotifyReleaseStages(array("dev", "prod")); // @TODO: make this a setting
+        \Bugsnag::setNotifyReleaseStages(array("prod"));
         \Bugsnag::setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
 
-/*
+		/*
         $options = array(
             'environmentName' => $envName,
             'queue'           => $queue,
