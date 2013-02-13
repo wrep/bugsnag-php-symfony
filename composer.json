@@ -1,0 +1,26 @@
+{
+    "name": "wrep/bugsnag-php-symfony",
+    "description": "An integration bundle for the bugsnag-php module into the Symfony2 framework.",
+    "type": "symfony-bundle",
+    "keywords": ["logging", "exceptions", "bugsnag"],
+    "homepage": "https://github.com/wrep/bugsnag-php-symfony",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rick Pastoor",
+            "email": "rick@wrep.nl"
+        },
+        {
+            "name": "Mathijs Kadijk",
+            "email": "mathijs@wrep.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.1",        
+        "bugsnag/bugsnag": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Wrep\\Bundle\\BugsnagBundle": "" }
+    },
+    "target-dir": "Wrep/Bundle/BugsnagBundle"
+}

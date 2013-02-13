@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="bugsnag.api_key"></parameter>
+        <parameter key="bugsnag.client.class">Nodrew\Bundle\PhpAirbrakeBundle\Airbrake\Client</parameter>
+        <parameter key="bugsnag.exception_listener.class">Nodrew\Bundle\PhpAirbrakeBundle\EventListener\ExceptionListener</parameter>
+        <parameter key="bugsnag.shutdown_listener.class">Nodrew\Bundle\PhpAirbrakeBundle\EventListener\ShutdownListener</parameter>
+    </parameters>
+
+    <services>
+        <service id="bugsnag.client" class="%bugsnag.client.class%">
+            <argument>%bugsnag.api_key%</argument>
+            <argument>%kernel.environment%</argument>
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="bugsnag.exception_listener" class="%bugsnag.exception_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+            <argument type="service" id="bugsnag.client" />
+        </service>
+
+        <service id="bugsnag.shutdown_listener" class="%bugsnag.shutdown_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.controller" method="register" />
+            <argument type="service" id="bugsnag.client" />
+        </service>
+    </services>
+</container>

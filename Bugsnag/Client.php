@@ -1,0 +1,75 @@
+<?php
+namespace Wrep\Bundle\BugsnagBundle\Bugsnag;
+
+//use Airbrake\Client as AirbrakeClient;
+//use Airbrake\Notice;
+//use Airbrake\Configuration as AirbrakeConfiguration;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+/**
+ * The BugsnagBundle Client Loader.
+ *
+ * This class assists in the loading of the bugsnag Client class.
+ *
+ * @license		http://www.opensource.org/licenses/mit-license.php
+ */
+class Client
+{
+    protected $enabled = false;
+
+    /**
+     * @param string $apiKey
+     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param string|null $queue
+     */
+    public function __construct($apiKey, $envName, ContainerInterface $container)
+    {
+        if (!$apiKey) {
+            return;
+        }
+
+        $this->enabled = true;
+        $request       = $container->get('request');
+        $controller    = 'None';
+        $action        = 'None';
+
+        if ($sa = $request->attributes->get('_controller')) {
+            $controllerArray = explode('::', $sa);
+            if(sizeof($controllerArray) > 1){
+                list($controller, $action) = $controllerArray;
+            }
+        }
+/*
+        $options = array(
+            'environmentName' => $envName,
+            'queue'           => $queue,
+            'serverData'      => $request->server->all(),
+            'getData'         => $request->query->all(),
+            'postData'        => $request->request->all(),
+            'sessionData'     => $request->getSession() ? $request->getSession()->all() : null,
+            'component'       => $controller,
+            'action'          => $action,
+            'projectRoot'     => realpath($container->getParameter('kernel.root_dir').'/..'),
+        );
+
+        if(!empty($apiEndPoint)){
+            $options['apiEndPoint'] = $apiEndPoint;
+        }
+
+        parent::__construct(new AirbrakeConfiguration($apiKey, $options));*/
+
+    }
+
+    /**
+     * Notify about the notice.
+     *
+     * @param $notice
+     */
+    public function notify(Notice $notice)
+    {
+        if ($this->enabled) {
+            //parent::notify($notice);
+        }
+    }
+}
