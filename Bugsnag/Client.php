@@ -44,7 +44,7 @@ class Client
         // Register bugsnag
         \Bugsnag::register($apiKey);
         \Bugsnag::setReleaseStage($envName);
-        \Bugsnag::setNotifyReleaseStages(array("development", "staging", "production")); // @TODO: make this a setting
+        \Bugsnag::setNotifyReleaseStages(array("dev", "prod")); // @TODO: make this a setting
         \Bugsnag::setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
 
 /*
