@@ -80,10 +80,10 @@ class Client
     	}
     }
 
-    public function notifyOnError($message, $backtrace)
+    public function notifyOnError($message, Array $metadata = null)
     {
     	if ($this->enabled) {
-    		\Bugsnag::notifyError('Error', $message, $backtrace);
+    		\Bugsnag::notifyError('Error', $message, $metadata);
     	}
     }
 }
