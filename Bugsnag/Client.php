@@ -40,6 +40,11 @@ class Client
                 list($controller, $action) = $controllerArray;
             }
         }
+
+        // Register bugsnag
+        Bugsnag::register($apiKey);
+
+
 /*
         $options = array(
             'environmentName' => $envName,
@@ -51,14 +56,7 @@ class Client
             'component'       => $controller,
             'action'          => $action,
             'projectRoot'     => realpath($container->getParameter('kernel.root_dir').'/..'),
-        );
-
-        if(!empty($apiEndPoint)){
-            $options['apiEndPoint'] = $apiEndPoint;
-        }
-
-        parent::__construct(new AirbrakeConfiguration($apiKey, $options));*/
-
+        );*/
     }
 
     /**
@@ -71,5 +69,19 @@ class Client
         if ($this->enabled) {
             //parent::notify($notice);
         }
+    }
+
+    public function notifyOnException(\Exception $e)
+    {
+    	if ($this->enabled) {
+    		Bugsnag::notifyException($e);
+    	}
+    }
+
+    public function notifyOnError($message, $backtrace)
+    {
+    	if ($this->enabled) {
+    		Bugsnag::notifyError('Error', $message, $backtrace);
+    	}
     }
 }
