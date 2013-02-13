@@ -44,6 +44,7 @@ Configuration
 ```
 bugsnag:
     api_key: your_api_key
+```
 
 License
 -------
