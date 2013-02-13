@@ -42,7 +42,9 @@ class Client
         }
 
         // Register bugsnag
-        Bugsnag::register($apiKey);
+        \Bugsnag::register($apiKey);
+        \Bugsnag::setReleaseStage($envName);
+        \Bugsnag::setNotifyReleaseStages(array("development", "staging", "production")); // @TODO: make this a setting
 
 
 /*
@@ -74,14 +76,14 @@ class Client
     public function notifyOnException(\Exception $e)
     {
     	if ($this->enabled) {
-    		Bugsnag::notifyException($e);
+    		\Bugsnag::notifyException($e);
     	}
     }
 
     public function notifyOnError($message, $backtrace)
     {
     	if ($this->enabled) {
-    		Bugsnag::notifyError('Error', $message, $backtrace);
+    		\Bugsnag::notifyError('Error', $message, $backtrace);
     	}
     }
 }
