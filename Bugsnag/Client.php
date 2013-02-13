@@ -61,18 +61,6 @@ class Client
         );*/
     }
 
-    /**
-     * Notify about the notice.
-     *
-     * @param $notice
-     */
-    public function notify(Notice $notice)
-    {
-        if ($this->enabled) {
-            //parent::notify($notice);
-        }
-    }
-
     public function notifyOnException(\Exception $e)
     {
     	if ($this->enabled) {
