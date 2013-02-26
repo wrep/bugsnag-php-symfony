@@ -33,18 +33,19 @@ class Client
         $request = $container->get('request');
         $controller = 'None';
         $action = 'None';
+        $releaseStage = ($envName == 'prod') ? 'production' : $envName;
 
         if ($sa = $request->attributes->get('_controller')) {
             $controllerArray = explode('::', $sa);
-            if(sizeof($controllerArray) > 1){
+            if (sizeof($controllerArray) > 1) {
                 list($controller, $action) = $controllerArray;
             }
         }
 
         // Register bugsnag
         \Bugsnag::register($apiKey);
-        \Bugsnag::setReleaseStage($envName);
-        \Bugsnag::setNotifyReleaseStages(array("prod"));
+        \Bugsnag::setReleaseStage($releaseStage);
+        \Bugsnag::setNotifyReleaseStages(array("production"));
         \Bugsnag::setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
 
 		/*
