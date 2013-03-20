@@ -8,14 +8,22 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class BugsnagConsoleApplication extends Application
 {
-	public function renderException($e, $output)
+	public function __construct(KernelInterface $kernel)
 	{
+		parent::__construct($kernel);
+
+		// Boot kernel now
+		$kernel->boot();
+
 		// Setup Bugsnag to handle our errors
-		\Bugsnag::register($this->getKernel()->getContainer()->getParameter('bugsnag.apikey'));
+		\Bugsnag::register($kernel->getContainer()->getParameter('bugsnag.api_key'));
 		\Bugsnag::setReleaseStage('development');
 		\Bugsnag::setNotifyReleaseStages(array('development'));
-		\Bugsnag::setProjectRoot(realpath($this->getKernel()->getContainer()->getParameter('kernel.root_dir').'/..'));
+		\Bugsnag::setProjectRoot(realpath($kernel->getContainer()->getParameter('kernel.root_dir').'/..'));
+	}
 
+	public function renderException($e, $output)
+	{
 		// Send exception to Bugsnag
 		\Bugsnag::notifyException($e);
 
