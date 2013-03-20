@@ -12,7 +12,10 @@ class BugsnagConsoleApplication extends Application
 		parent::__construct($kernel);
 
 		// Setup Bugsnag to handle our errors
-
+		\Bugsnag::register($kernel->getContainer()->getParameter('bugsnag.apikey'));
+		\Bugsnag::setReleaseStage('development');
+		\Bugsnag::setNotifyReleaseStages(array('development'));
+		\Bugsnag::setProjectRoot(realpath($kernel->getContainer()->getParameter('kernel.root_dir').'/..'));
 	}
 
 	public function renderException($e, $output)
