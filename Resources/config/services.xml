@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="bugsnag.api_key"></parameter>
+        <parameter key="bugsnag.notify_stages"></parameter>
         <parameter key="bugsnag.client.class">Wrep\Bundle\BugsnagBundle\Bugsnag\Client</parameter>
         <parameter key="bugsnag.exception_listener.class">Wrep\Bundle\BugsnagBundle\EventListener\ExceptionListener</parameter>
         <parameter key="bugsnag.shutdown_listener.class">Wrep\Bundle\BugsnagBundle\EventListener\ShutdownListener</parameter>

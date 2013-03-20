@@ -15,11 +15,14 @@ class BugsnagConsoleApplication extends Application
 		// Boot kernel now
 		$kernel->boot();
 
+		// Get container
+		$container = $kernel->getContainer();
+
 		// Setup Bugsnag to handle our errors
-		\Bugsnag::register($kernel->getContainer()->getParameter('bugsnag.api_key'));
+		\Bugsnag::register($container->getParameter('bugsnag.api_key'));
 		\Bugsnag::setReleaseStage('development');
-		\Bugsnag::setNotifyReleaseStages(array('development'));
-		\Bugsnag::setProjectRoot(realpath($kernel->getContainer()->getParameter('kernel.root_dir').'/..'));
+		\Bugsnag::setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
+		\Bugsnag::setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
 	}
 
 	public function renderException($e, $output)
