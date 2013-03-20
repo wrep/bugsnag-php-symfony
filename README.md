@@ -54,11 +54,11 @@ Reporting errors from custom commands
 
 By default, this bundle does not handle errors and exceptions that raise from custom commands. Enabling this is a two step process:
 
-*   Altering the `console` file
+### Altering the `console` file
 
 *app/console*
 
-```
+``` php
 #!/usr/bin/env php
 <?php
 
@@ -83,8 +83,11 @@ $application = new BugsnagConsoleApplication($kernel);
 $application->run($input);
 ```
 
-*   Make sure you use `--env=prod` when calling commands
-    Do make sure you are using `--env=prod` when executing commands on your server. Symfony executes commands in dev mode by default, and by default we skip errors and exceptions in debug mode.
+### Make sure you use `--env=prod` when calling commands
+
+Do make sure you are using `--env=prod` when executing commands on your server. Symfony executes commands in dev mode by default, and by default we skip errors and exceptions in debug mode.
+
+`php app/console bundle:generate:something --end=prod`
 
 License
 -------
