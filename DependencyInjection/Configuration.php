@@ -21,9 +21,12 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('bugsnag');
 
         $rootNode
+        	->fixXmlConfig('notify_stage')
             ->children()
             	->scalarNode('api_key')->end()
-                ->arrayNode('notify_stages')->defaultValue(array('production'))->end()
+                ->arrayNode('notify_stages')
+                	->prototype('scalar')->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

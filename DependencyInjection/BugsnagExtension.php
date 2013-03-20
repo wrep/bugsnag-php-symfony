@@ -22,7 +22,15 @@ class BugsnagExtension extends Extension
         $loader->load('services.xml');
 
         $container->setParameter('bugsnag.api_key', $config['api_key']);
-        $container->setParameter('bugsnag.notify_stages', $config['notify_stages']);
+
+        if (is_array($config['notify_stages']))
+        {
+        	$container->setParameter('bugsnag.notify_stages', $config['notify_stages']);
+        }
+        else
+        {
+        	$container->setParameter('bugsnag.notify_stages', array('production'));
+        }
     }
 
     /**
