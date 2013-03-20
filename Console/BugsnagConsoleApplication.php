@@ -3,19 +3,21 @@ namespace Wrep\Bundle\BugsnagBundle\Console;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class BugsnagConsoleApplication extends Application
 {
-	public function __construct(KernelInterface $kernel)
+	public function run(InputInterface $input = null, OutputInterface $output = null)
 	{
-		// Pass the kernel to our parent
-		parent::__construct($kernel);
-
 		// Setup Bugsnag to handle our errors
-		\Bugsnag::register($kernel->getContainer()->getParameter('bugsnag.apikey'));
+		\Bugsnag::register($this->getKernel()->getContainer()->getParameter('bugsnag.apikey'));
 		\Bugsnag::setReleaseStage('development');
 		\Bugsnag::setNotifyReleaseStages(array('development'));
-		\Bugsnag::setProjectRoot(realpath($kernel->getContainer()->getParameter('kernel.root_dir').'/..'));
+		\Bugsnag::setProjectRoot(realpath($this->getKernel()->getContainer()->getParameter('kernel.root_dir').'/..'));
+
+		// Run command now
+		parent::run($input, $output);
 	}
 
 	public function renderException($e, $output)
