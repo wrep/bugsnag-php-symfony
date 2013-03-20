@@ -18,9 +18,13 @@ class BugsnagConsoleApplication extends Application
 		// Get container
 		$container = $kernel->getContainer();
 
+		// Figure out environment
+		$envName = $container->getParameter('kernel.environment');
+		$releaseStage = ($envName == 'prod') ? 'production' : $envName;
+
 		// Setup Bugsnag to handle our errors
 		\Bugsnag::register($container->getParameter('bugsnag.api_key'));
-		\Bugsnag::setReleaseStage('development');
+		\Bugsnag::setReleaseStage($releaseStage);
 		\Bugsnag::setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
 		\Bugsnag::setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
 	}

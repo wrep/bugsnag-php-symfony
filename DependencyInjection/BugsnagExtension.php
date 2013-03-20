@@ -21,8 +21,10 @@ class BugsnagExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
+        // Set api key
         $container->setParameter('bugsnag.api_key', $config['api_key']);
 
+        // Set stages to notify from configuration, fall back on production only if not set
         if (is_array($config['notify_stages']))
         {
         	$container->setParameter('bugsnag.notify_stages', $config['notify_stages']);
