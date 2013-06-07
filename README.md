@@ -87,7 +87,7 @@ $application->run($input);
 
 Do make sure you are using `--env=prod` when executing commands on your server. Symfony executes commands in dev mode by default, and by default we skip errors and exceptions in debug mode.
 
-`php app/console bundle:generate:something --end=prod`
+`php app/console bundle:generate:something --env=prod`
 
 License
 -------
