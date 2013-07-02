@@ -1,9 +1,6 @@
 <?php
 namespace Wrep\Bundle\BugsnagBundle\Bugsnag;
 
-//use Airbrake\Client as AirbrakeClient;
-//use Airbrake\Notice;
-//use Airbrake\Configuration as AirbrakeConfiguration;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
