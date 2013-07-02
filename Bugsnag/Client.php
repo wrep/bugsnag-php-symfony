@@ -28,35 +28,29 @@ class Client
 
         $this->enabled = true;
         $request = $container->get('request');
-        $controller = 'None';
-        $action = 'None';
         $releaseStage = ($envName == 'prod') ? 'production' : $envName;
-
-        if ($sa = $request->attributes->get('_controller')) {
-            $controllerArray = explode('::', $sa);
-            if (sizeof($controllerArray) > 1) {
-                list($controller, $action) = $controllerArray;
-            }
-        }
 
         // Register bugsnag
         \Bugsnag::register($apiKey);
         \Bugsnag::setReleaseStage($releaseStage);
         \Bugsnag::setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
         \Bugsnag::setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
+        \Bugsnag::setMetaDataFunction(function() use ($request) {
+            // Set up result array
+            $metaData = array(
+                'Symfony' => array()
+            );
 
-		/*
-        $options = array(
-            'environmentName' => $envName,
-            'queue'           => $queue,
-            'serverData'      => $request->server->all(),
-            'getData'         => $request->query->all(),
-            'postData'        => $request->request->all(),
-            'sessionData'     => $request->getSession() ? $request->getSession()->all() : null,
-            'component'       => $controller,
-            'action'          => $action,
-            'projectRoot'     => realpath($container->getParameter('kernel.root_dir').'/..'),
-        );*/
+            // Get and add controller information, if available
+            $controller = $request->attributes->get('_controller');
+            if ($controller !== null)
+            {
+                $metaData['Symfony'] = array('Controller' => $controller);
+            }
+
+            // Return our metadata to be included in the error message
+            return $metaData;
+        });
     }
 
     public function notifyOnException(\Exception $e)
