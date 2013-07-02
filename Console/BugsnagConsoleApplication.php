@@ -27,6 +27,9 @@ class BugsnagConsoleApplication extends Application
 		\Bugsnag::setReleaseStage($releaseStage);
 		\Bugsnag::setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
 		\Bugsnag::setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
+
+		// Attach to support reporting PHP errors
+		set_error_handler("\Bugsnag::errorHandler");
 	}
 
 	public function renderException($e, $output)
