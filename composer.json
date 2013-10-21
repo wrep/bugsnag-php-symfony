@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=5.3.1",        
-        "bugsnag/bugsnag": "dev-master"
+        "bugsnag/bugsnag": "1.1.*"
     },
     "autoload": {
         "psr-0": { "Wrep\\Bundle\\BugsnagBundle": "" }
