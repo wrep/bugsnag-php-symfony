@@ -32,11 +32,11 @@ class Client
         $releaseStage = ($envName == 'prod') ? 'production' : $envName;
 
         // Register bugsnag
-        $this->bugsnag = new Bugsnag_Client($apiKey);
+        $this->bugsnag = new \Bugsnag_Client($apiKey);
         $this->bugsnag->setReleaseStage($releaseStage);
         $this->bugsnag->setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
         $this->bugsnag->setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
-        $this->bugsnag->setBeforeNotify(function($error) use ($request) {
+        $this->bugsnag->setBeforeNotifyFunction(function($error) use ($request) {
             // Set up result array
             $metaData = array(
                 'Symfony' => array()
