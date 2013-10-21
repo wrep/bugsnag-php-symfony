@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Client
 {
     protected $enabled = false;
+    protected $bugsnag;
 
     /**
      * @param string $apiKey
@@ -31,11 +32,11 @@ class Client
         $releaseStage = ($envName == 'prod') ? 'production' : $envName;
 
         // Register bugsnag
-        \Bugsnag::register($apiKey);
-        \Bugsnag::setReleaseStage($releaseStage);
-        \Bugsnag::setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
-        \Bugsnag::setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
-        \Bugsnag::setMetaDataFunction(function() use ($request) {
+        $this->bugsnag = new Bugsnag_Client($apiKey);
+        $this->bugsnag->setReleaseStage($releaseStage);
+        $this->bugsnag->setNotifyReleaseStages($container->getParameter('bugsnag.notify_stages'));
+        $this->bugsnag->setProjectRoot(realpath($container->getParameter('kernel.root_dir').'/..'));
+        $this->bugsnag->setBeforeNotify(function($error) use ($request) {
             // Set up result array
             $metaData = array(
                 'Symfony' => array()
@@ -56,14 +57,14 @@ class Client
     public function notifyOnException(\Exception $e)
     {
     	if ($this->enabled) {
-    		\Bugsnag::notifyException($e);
+    		$this->bugsnag->notifyException($e);
     	}
     }
 
     public function notifyOnError($message, Array $metadata = null)
     {
     	if ($this->enabled) {
-    		\Bugsnag::notifyError('Error', $message, $metadata);
+    		$this->bugsnag->notifyError('Error', $message, $metadata);
     	}
     }
 }
