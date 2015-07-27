@@ -1,6 +1,8 @@
 bugsnag-php-symfony
 ===================
 
+__*Important:*__ This bundle is not maintained anymore, since we don't use it ourselfs anymore. You probably shouldn't use this in a new project!
+
 An integration bundle for the bugsnag-php module into the Symfony2 framework.
 
 ## Installation Instructions
